@@ -103,4 +103,84 @@ DTD有着命名空间的支持限制，所以其并不适合webservice，Relax N
 </xs:schema>
 ```
 
-这份生成的schema显然可以被改进的。第一点需要注意的是，每种类型的元素都是有根节点的开始的，这意味着web service将会接收这里面的所有数据。这并不是我们想要的，我们只是想要接收<HolidayRequest/>。通过移除打包的标签
+这份生成的schema显然可以被改进的。第一点需要注意的是，每种类型的元素都是有根节点的开始的，这意味着web service将会接收这里面的所有数据。这并不是我们想要的，我们只是想要接收<HolidayRequest/>。通过移除打包元素的标签(从而保留了类型)，而且直列结果，我们可以将其完成如下：
+
+``` xml
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:hr="http://mycompany.com/hr/schemas"
+        elementFormDefault="qualified"
+        targetNamespace="http://mycompany.com/hr/schemas">
+    <xs:element name="HolidayRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Holiday" type="hr:HolidayType"/>
+                <xs:element name="Employee" type="hr:EmployeeType"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="HolidayType">
+        <xs:sequence>
+            <xs:element name="StartDate" type="xs:NMTOKEN"/>
+            <xs:element name="EndDate" type="xs:NMTOKEN"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="EmployeeType">
+        <xs:sequence>
+            <xs:element name="Number" type="xs:integer"/>
+            <xs:element name="FirstName" type="xs:NCName"/>
+            <xs:element name="LastName" type="xs:NCName"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
+```
+这份schema依旧还存在问题：形如这样的一份schema，你可以预期如下的消息校验：
+
+``` xml 
+<HolidayRequest xmlns="http://mycompany.com/hr/schemas">
+    <Holiday>
+        <StartDate>this is not a date</StartDate>
+        <EndDate>neither is this</EndDate>
+    </Holiday>
+    <!-- ... -->
+</HolidayRequest>
+```
+再明显不过，我们必须保证开始和结束日期是真正的日期格式，XML Schema有一个内置的日期类型供我们使用。我们也可以改变NCName为string。最终，改变<HolidayRequest/>里的所有sequence，这将告诉xml解释器，这里面的内容并不重要，最终的XSD将如下：
+
+``` xml
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        xmlns:hr="http://mycompany.com/hr/schemas"
+        elementFormDefault="qualified"
+        targetNamespace="http://mycompany.com/hr/schemas">
+    <xs:element name="HolidayRequest">
+        <xs:complexType>
+            <xs:all>
+                <xs:element name="Holiday" type="hr:HolidayType"/>                                                     (1)
+                <xs:element name="Employee" type="hr:EmployeeType"/>
+            </xs:all>
+        </xs:complexType>
+    </xs:element>
+    <xs:complexType name="HolidayType">
+        <xs:sequence>
+            <xs:element name="StartDate" type="xs:date"/>
+            <xs:element name="EndDate" type="xs:date"/>                                                                (2)
+        </xs:sequence>                                                                                                 (2)
+    </xs:complexType>
+    <xs:complexType name="EmployeeType">
+        <xs:sequence>
+            <xs:element name="Number" type="xs:integer"/>
+            <xs:element name="FirstName" type="xs:string"/>
+            <xs:element name="LastName" type="xs:string"/>                                                             (3)
+        </xs:sequence>                                                                                                 (3)
+    </xs:complexType>
+</xs:schema>
+```
+
+
+(1) *all* 意思是告诉xml转换器 <Holiday>和<Employee>的顺序并不重要
+(2)我们使用 *xsd:data*数据类型，它是由年，月，日组成
+(3)*xsd:string*被用作解释first和last name
+
+我们保存文件 hr.xsd
+
+
+
