@@ -183,4 +183,4 @@ DTD有着命名空间的支持限制，所以其并不适合webservice，Relax N
 我们保存文件 hr.xsd
 
 
-
+#3.4 服务协议
