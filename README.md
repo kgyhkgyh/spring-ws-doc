@@ -1,1 +1,1 @@
-# spring-ws-doc12
+# spring-ws-doc
