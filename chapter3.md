@@ -60,5 +60,47 @@
 DTD有着命名空间的支持限制，所以其并不适合webservice，Relax NG和Schematron 显然比XML Schema更加容易。不幸的是，他们对平台支持的广泛程度并不是那么好，所以我们将继续使用XML Schema。
 
 
+目前为止，创建一个XSD的最简单办法是从一个样例中推导得出，任何的一个java IDE或者XML编辑器都支持此功能。基本上，这些工具都是使用样例xml文件，然后生成并校验它。
+其结果当然还需呀打磨，不过这是一个很好的出发点。
 
+使用上面描述的例子，我们最终得到如下schema：
 
+``` xml
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified"
+        targetNamespace="http://mycompany.com/hr/schemas"
+        xmlns:hr="http://mycompany.com/hr/schemas">
+    <xs:element name="HolidayRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="hr:Holiday"/>
+                <xs:element ref="hr:Employee"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Holiday">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="hr:StartDate"/>
+                <xs:element ref="hr:EndDate"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="StartDate" type="xs:NMTOKEN"/>
+    <xs:element name="EndDate" type="xs:NMTOKEN"/>
+    <xs:element name="Employee">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element ref="hr:Number"/>
+                <xs:element ref="hr:FirstName"/>
+                <xs:element ref="hr:LastName"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    <xs:element name="Number" type="xs:integer"/>
+    <xs:element name="FirstName" type="xs:NCName"/>
+    <xs:element name="LastName" type="xs:NCName"/>
+</xs:schema>
+```
+
+这份生成的schema显然可以被改进的。第一点需要注意的是，每种类型的元素都是有根节点的开始的，这意味着web service将会接收这里面的所有数据。这并不是我们想要的，我们只是想要接收<HolidayRequest/>。通过移除打包的标签
