@@ -273,6 +273,71 @@ DTD有着命名空间的支持限制，所以其并不适合webservice，Relax N
 
 这就是最终的WSDL，我们将会描述如何去实现结果schema
 
+#3.6 实现端点(Endpoint)
+
+在Spring-ws中，你可以实现端点来操作xml消息。创建一个端点的常见方式是使用@Endpoint注解。在这个endpoint类中，你可以创建一个或多个方法来处理来源请求。方法签名可以非常灵活：其可以包括任何与来源xml消息相关的参数类型，这个稍后会解释。
+
+``` java
+package com.mycompany.hr.ws;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ws.server.endpoint.annotation.Endpoint;
+import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
+import org.springframework.ws.server.endpoint.annotation.RequestPayload;
+
+import com.mycompany.hr.service.HumanResourceService;
+import org.jdom.Element;
+import org.jdom.JDOMException;
+import org.jdom.Namespace;
+import org.jdom.xpath.XPath;
+
+@Endpoint                                                                                (1)
+public class HolidayEndpoint {
+
+  private static final String NAMESPACE_URI = "http://mycompany.com/hr/schemas";
+
+  private XPath startDateExpression;
+
+  private XPath endDateExpression;
+
+  private XPath nameExpression;
+
+  private HumanResourceService humanResourceService;
+
+  @Autowired
+  public HolidayEndpoint(HumanResourceService humanResourceService)                      (2)
+      throws JDOMException {
+    this.humanResourceService = humanResourceService;
+
+    Namespace namespace = Namespace.getNamespace("hr", NAMESPACE_URI);
+
+    startDateExpression = XPath.newInstance("//hr:StartDate");
+    startDateExpression.addNamespace(namespace);
+
+    endDateExpression = XPath.newInstance("//hr:EndDate");
+    endDateExpression.addNamespace(namespace);
+
+    nameExpression = XPath.newInstance("concat(//hr:FirstName,' ',//hr:LastName)");
+    nameExpression.addNamespace(namespace);
+  }
+
+  @PayloadRoot(namespace = NAMESPACE_URI, localPart = "HolidayRequest")                  (3)
+  public void handleHolidayRequest(@RequestPayload Element holidayRequest)               (4)
+      throws Exception {
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    Date startDate = dateFormat.parse(startDateExpression.valueOf(holidayRequest));
+    Date endDate = dateFormat.parse(endDateExpression.valueOf(holidayRequest));
+    String name = nameExpression.valueOf(holidayRequest);
+
+    humanResourceService.bookHoliday(startDate, endDate, name);
+  }
+
+}
+```
+
 
 
 
