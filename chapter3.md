@@ -184,3 +184,110 @@ DTD有着命名空间的支持限制，所以其并不适合webservice，Relax N
 
 
 #3.4 服务协议
+
+一个服务协议一般表现为一个WSDL文件，这个在Spring-ws中是不需要自己手写的。基于XSD和一些转换，Spring-ws可以自动为你创建WSDL，这个在章节3.6 “实现一个端点”会做出中解释。你可以选择跳过下一章，那一章节里会讲到如何手写一个WSDL文件。
+
+我们从标准以及通过导入XSD的前言开始WSDL，来区分schema和定义，我们将为WSDL使用分隔的命名空间：http://mycompany.com/hr/definitions.
+
+```xml
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:schema="http://mycompany.com/hr/schemas"
+                  xmlns:tns="http://mycompany.com/hr/definitions"
+                  targetNamespace="http://mycompany.com/hr/definitions">
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://mycompany.com/hr/schemas" schemaLocation="hr.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+```
+
+下一步，我们加入自己的基于已写schema类型的消息。我们目前只有一个消息：<HolidayRequest/>
+
+```xml
+<wsdl:message name="HolidayRequest">
+        <wsdl:part element="schema:HolidayRequest" name="HolidayRequest"/>
+</wsdl:message>
+```
+
+我们为端口类型加入消息：
+
+```xml
+<wsdl:portType name="HumanResource">
+    <wsdl:operation name="Holiday">
+        <wsdl:input message="tns:HolidayRequest" name="HolidayRequest"/>
+    </wsdl:operation>
+</wsdl:portType>
+```
+如此便结束了WSDL抽象部分的编写(接口，如同之前那样)，余下具体的部分。具体的部分是由一个告诉客户端如何调用操作定义的binding，和一个告诉你到哪里去调用它的service组成。
+
+添加一个具体部分十分程式化，只需要引用你之前定义的抽象部分，确认你为soap:binding元素使用的Document/Literal模式(rpc/encoded模式并不赞成使用)，选择一个soapAction的操作(在本例中是http://mycompany.com/RequestHoliday，但是任何uri都是可以的)，决定你的请求入口(在这里是http://mycompany.com/humanresources)：
+
+```xml
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:schema="http://mycompany.com/hr/schemas"
+                  xmlns:tns="http://mycompany.com/hr/definitions"
+                  targetNamespace="http://mycompany.com/hr/definitions">
+    <wsdl:types>
+        <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://mycompany.com/hr/schemas"                      (1)
+                schemaLocation="hr.xsd"/>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="HolidayRequest">                                                 (2)
+        <wsdl:part element="schema:HolidayRequest" name="HolidayRequest"/>               (3)
+    </wsdl:message>
+    <wsdl:portType name="HumanResource">                                                 (4)
+        <wsdl:operation name="Holiday">
+            <wsdl:input message="tns:HolidayRequest" name="HolidayRequest"/>             (2)
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="HumanResourceBinding" type="tns:HumanResource">                  (4)(5)
+        <soap:binding style="document"                                                   (6)
+            transport="http://schemas.xmlsoap.org/soap/http"/>                           (7)
+        <wsdl:operation name="Holiday">
+            <soap:operation soapAction="http://mycompany.com/RequestHoliday"/>           (8)
+            <wsdl:input name="HolidayRequest">
+                <soap:body use="literal"/>                                               (6)
+            </wsdl:input>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="HumanResourceService">
+        <wsdl:port binding="tns:HumanResourceBinding" name="HumanResourcePort">          (5)
+            <soap:address location="http://localhost:8080/holidayService/"/>             (9)
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
