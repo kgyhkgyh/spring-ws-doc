@@ -261,6 +261,19 @@ DTD有着命名空间的支持限制，所以其并不适合webservice，Relax N
 </wsdl:definitions>
 ```
 
+1. 我们引入了第三章的"数据协议"
+2. 我们定义了HolidayRequest消息，并在portType里用到
+3. HolidayRequest类型定义在了schema中
+4. 我们定义的HumanResource端口类型，我们在binding中会用到
+5. 我们定义的HumanResourceBinding绑定，在port中使用到
+6. 我们使用了document/literal风格
+7. 字面量http://schemas.xmlsoap.org/soap/http知名了HTTP传输
+8. soapAction属性指定了SOAPAction发送的HTTP请求头
+9. http://localhost:8080/holidayService/是一个可以被webservice调用的URL
+
+这就是最终的WSDL，我们将会描述如何去实现结果schema
+
+
 
 
 
