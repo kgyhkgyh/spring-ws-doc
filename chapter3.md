@@ -279,6 +279,10 @@ DTD有着命名空间的支持限制，所以其并不适合webservice，Relax N
 
 在Spring-ws中，你可以实现端点来操作xml消息。创建一个端点的常见方式是使用@Endpoint注解。在这个endpoint类中，你可以创建一个或多个方法来处理来源请求。方法签名可以非常灵活：其可以包括任何与来源xml消息相关的参数类型，这个稍后会解释。
 
+###3.6.1 处理XML消息
+
+在这个简单的例子中，我们将使用JDom2 去处理XML消息。我们也可以使用Xpath，因为它允许我们去选择特定的JDOM树而不需要遵从严格的schema一致性。
+
 ``` java
 package com.mycompany.hr.ws;
 
@@ -339,7 +343,7 @@ public class HolidayEndpoint {
 
 }
 ```
-
+*(1) 
 
 
 
