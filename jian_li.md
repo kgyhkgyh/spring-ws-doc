@@ -114,8 +114,9 @@
 - 前端工具：Bower/Gulp/SaSS/LeSS/PhoneGap
 - 数据库相关：MySQL/Oracle/H2/SQLite
 - 版本管理、文档和自动化部署工具：Svn/Git
-- java网络框架：netty/CXF/websocket
-- 
+- java网络框架：nio/netty/CXF/websocket
+- crm框架：hibernate/mybatis
+- mvc框架：spring mvc/spring
 
 ## 参考技能关键字
 
