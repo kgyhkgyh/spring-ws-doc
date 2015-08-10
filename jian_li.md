@@ -111,7 +111,6 @@
 以下均为我熟练使用的技能
 
 - 前端框架：Bootstrap/AngularJS
-- 前端工具：Bower/Gulp/SaSS/LeSS/PhoneGap
 - 数据库相关：MySQL/Oracle/H2/SQLite
 - 版本管理、文档和自动化部署工具：Svn/Git
 - java网络框架：nio/netty/CXF/websocket
