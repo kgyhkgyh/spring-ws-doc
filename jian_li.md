@@ -13,8 +13,6 @@
  - 陈鹏亮/男/1988.10.27
  - 本科/西安电子科技大学计算机学院 
  - 工作年限：4年
- - 微博：[@JobDeer](http://weibo.com/jobdeer) （``` 如果没有技术相关内容，也可以不放 ```）
- - 技术博客：http://blog.github.io ( ``` 使用GitHub Host的Big较高 ```  )
  - Github: http://github.com/geekcompany ( ``` 有原创repo的Github帐号会极大的提升你的个人品牌 ```  )
 
  - 期望职位：Java高级程序员
