@@ -89,7 +89,7 @@
 ## 开源项目
 （对于程序员来讲，没有什么比Show me the code能有说服力了）
 
- - [STU](http://github.com/yourname/projectname) : 项目的简要说明，Star和Fork数多的可以注明
+ - [rocketMQ](http://github.com/yourname/projectname) : 我对该项目源码进行了非常深入的研究和理解，利用该框架的设计思路完成了许多消息传输方面的技术难题
  - [WXYZ](http://github.com/yourname/projectname) : 项目的简要说明，Star和Fork数多的可以注明
 
 ## 技术文章
@@ -112,7 +112,7 @@
 - 前端框架：Bootstrap/AngularJS
 - 数据库相关：MySQL/Oracle/H2/SQLite
 - 版本管理、文档和自动化部署工具：Svn/Git
-- java网络框架：nio/netty/CXF/websocket
+- java网络框架：nio/netty/CXF/socket
 - crm框架：hibernate/mybatis
 - mvc框架：spring mvc/spring
 - ide：eclipse/intellij idea
