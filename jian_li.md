@@ -13,11 +13,25 @@
  - 陈鹏亮/男/1988.10.27
  - 本科/西安电子科技大学计算机学院 
  - 工作年限：4年
- - Github: http://github.com/geekcompany ( ``` 有原创repo的Github帐号会极大的提升你的个人品牌 ```  )
-
+ - Github: http://github.com/kgyhkgyh
  - 期望职位：Java高级程序员
  - 期望薪资：税前月薪15k~20k，特别喜欢的公司可例外
  - 期望城市：深圳
+
+---
+
+# 开源项目和作品
+
+## 开源项目
+
+ - [rocketMQ](http://github.com/yourname/projectname) : 我对该项目源码进行了非常深入的研究和理解，利用该框架的设计思路完成了许多消息传输方面的技术难题
+ - [file-transfer](https://github.com/kgyhkgyh/file-transfer) : 
+ 自己写了一个文件传输工具，基于netty的通信模块，利用分布式系统的原理编写底层的通信模块和协议，实现高效的文件传输和消息传输中间件
+
+## 技术文章
+
+- [spring-webservice官方文档翻译](https://www.gitbook.com/book/kgyhkgyh/sppring-ws-/details)
+- [rocketMQ详细分析(原创文章)](https://www.gitbook.com/book/kgyhkgyh/rocketmq/details) 
 
 ---
 
@@ -54,19 +68,6 @@
 
 ---
 
-# 开源项目和作品
-
-## 开源项目
-（对于程序员来讲，没有什么比Show me the code能有说服力了）
-
- - [rocketMQ](http://github.com/yourname/projectname) : 我对该项目源码进行了非常深入的研究和理解，利用该框架的设计思路完成了许多消息传输方面的技术难题
-
-## 技术文章
-（挑选你写作或翻译的技术文章，好的文章可以从侧面证实你的表达和沟通能力，也帮助招聘方更了解你）
-
-- [spring-webservice官方文档翻译](https://www.gitbook.com/book/kgyhkgyh/sppring-ws-/details)
-- [rocketMQ详细分析(原创文章)](https://www.gitbook.com/book/kgyhkgyh/rocketmq/details) 
-
 
 # 技能清单
 
@@ -79,9 +80,6 @@
 - crm框架：hibernate/mybatis
 - mvc框架：spring mvc/spring
 - ide：eclipse/intellij idea
-
-
-
 
 ---
 
